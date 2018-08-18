@@ -10,13 +10,15 @@ tripodSurfaceThickness=12;
 tripodNutInsetDia=12;
 tripodNutInsetDepth=14;
 
+textEnabled=false;
 textDepth=0.5;
 fontHeight=4;
 textBottomInset=tripodSurfaceThickness/2-fontHeight/2;
 
-logoScaleFactor=0.14;
-logoXAdjust=-7;
-logoYAdjust=-1;
+logoEnabled=true;
+logoScaleFactor=0.15;
+logoXAdjust=-8.5;
+logoYAdjust=-1.5;
 
 overlap=0.01;
 $fn=50;
@@ -38,15 +40,21 @@ difference() {
             rotate([-90,0,0]) {
                 cylinder(d=tripodNutInsetDia, h=tripodNutInsetDepth, $fn=6);
             }
-    translate([0,-baseDia/2-tripodSurfaceThickness+textBottomInset,tripodSurfaceDepth-textDepth]) {
-        //text("AMCREST",font="Cambria Math",size=fontHeight,halign="center");
+    if (textEnabled) {
+        translate([0,-baseDia/2-tripodSurfaceThickness+textBottomInset,tripodSurfaceDepth-textDepth]) {
+            scale([1.4,1,1])
+                linear_extrude(height = 2)
+                    text("AMCREST",font="Arial:style=Black",size=fontHeight,halign="center");
+        }
     }
-    translate([-tripodSurfaceWidth/2+logoXAdjust,
-            -baseDia/2-tripodSurfaceThickness+textBottomInset+logoYAdjust,
-            tripodSurfaceDepth-textDepth]) {
-        scale([logoScaleFactor,logoScaleFactor,1])
-        linear_extrude(height = 2)
-            import("amcrest_logo.dxf");
+    if (logoEnabled) {
+        translate([-tripodSurfaceWidth/2+logoXAdjust,
+                -baseDia/2-tripodSurfaceThickness+textBottomInset+logoYAdjust,
+                tripodSurfaceDepth-textDepth]) {
+            scale([logoScaleFactor,logoScaleFactor,1])
+            linear_extrude(height = 2)
+                import("amcrest_logo.dxf");
+        }
     }
 }
 
